@@ -1,64 +1,55 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-void main() {
-  runApp(
-    MaterialApp( 
-      home: MyApp()
-    )
-  );
+void main(List<String> args) {
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatefulWidget {
+   MyApp({super.key});
+final List<Map> myproducts = List.generate(100, (index) => {"id":index, "name":"product $index"});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-          appBar: AppBar(
-              title:Text("Collage Layout in Flutter"), //appbar title
-              backgroundColor: Colors.redAccent //appbar background color
-          ),
-          body: Container(
-            alignment:Alignment.topCenter,
-            padding: EdgeInsets.all(15),
-             child: StaggeredGridView.count( 
-                crossAxisCount: 3, //total cross (Horizontal) axix 3
-                staggeredTiles: const <StaggeredTile>[
-                    StaggeredTile.count(1, 2),  //(width, height)// width 1 part of total cross axis
-                    StaggeredTile.count(1, 1), //(width, height)// width 1 part of total cross axis
-                    StaggeredTile.count(1, 1), //(width, height)// width 1 part of total cross axis
-                    StaggeredTile.count(2, 1), //(width, height)// width 2 part of total cross axis
-                ],
-                children:[
-                    Container(  //box 1
-                       color: Colors.lightGreen,
-                       child: Container() //you can add image or other widgets
-                    ),
+    return  MaterialApp(
+      home:MyHomepage() ,
+    );
+  }
+}
 
-                    Container(  //box2 
-                       color: Colors.red,
-                       child: Container() //you can add image or other widgets
-                    ),
-
-                    Container(  //box 3
-                       color: Colors.blue,
-                       child: Container() //you can add image or other widgets
-                    ),
-                      Container(  //box2 
-                       color: Colors.red,
-                       child: Container() //you can add image or other widgets
-                    ),
-
-                    Container(  //box 3
-                       color: Colors.blue,
-                       child: Container() //you can add image or other widgets
-                    ),
-                
-
-
-                ]
-             )
-          )
+class MyHomepage extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+      var myproducts;
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("fluter gridview"),
+        ),
+       body:GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
+            itemCount: myproducts.length,
+            itemBuilder: (BuildContext ctx, index) {
+              return Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Text(myproducts[index]["name"]),
+              );
+            }),
       );
   }
+
+
 }
